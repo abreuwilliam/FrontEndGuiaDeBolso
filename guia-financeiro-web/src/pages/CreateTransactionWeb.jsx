@@ -29,6 +29,9 @@ export default function CreateTransactionWeb() {
 
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
+  // Adicionado o estado date para poder pegar a data do comprovante também, caso queira
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  
   const [paymentMethod, setPaymentMethod] = useState("DEBIT");
   const [selectedSource, setSelectedSource] = useState("");
   const [category, setCategory] = useState("OUTROS");
@@ -69,19 +72,58 @@ export default function CreateTransactionWeb() {
     else if (method === "CREDIT" && cards.length > 0) setSelectedSource(cards[0].id);
   };
 
+  // NOVA FUNÇÃO: Faz o upload e lê o comprovante
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("https://api-william.duckdns.org/api/transaction/process-attachment", {
+        method: "POST",
+        body: formData,
+        headers: {
+          "accept": "*/*"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro na API ao processar o comprovante");
+      }
+
+      const data = await response.json();
+
+      // Preenche os campos com a resposta da API
+      if (data.valor) setAmount(data.valor.toString());
+      if (data.descricao) setDescription(data.descricao);
+      if (data.data) setDate(data.data);
+
+      alert("Comprovante lido! Agora é só escolher a categoria.");
+    } catch (error) {
+      console.error("Erro ao processar arquivo:", error);
+      alert("Não foi possível ler o comprovante. Tente digitar manualmente.");
+    } finally {
+      setLoading(false);
+      event.target.value = null; // Limpa o input para permitir enviar o mesmo arquivo novamente, se necessário
+    }
+  };
+
   const handleSave = async () => {
-    if (!amount || !description || !selectedSource) {
-      alert("Preencha valor, descrição e origem.");
+    if (!amount || !selectedSource) {
+      alert("Preencha o valor e a origem.");
       return;
     }
 
     try {
       setLoading(true);
       const payload = {
-        description,
-        amount: parseFloat(amount.replace(",", ".")),
+        description: description.trim() === "" ? `Gasto: ${formatCategoryName(category)}` : description,
+        amount: parseFloat(amount.toString().replace(",", ".")),
         category,
-        date: new Date().toISOString().split("T")[0],
+        date: date, // Usa a data atual ou a data que veio do comprovante
       };
 
       if (paymentMethod === "CREDIT") {
@@ -95,6 +137,10 @@ export default function CreateTransactionWeb() {
 
       await api.post("/transaction", payload);
       alert("Gasto registrado com sucesso!");
+      
+      setDescription("");
+      setAmount("");
+      setDate(new Date().toISOString().split("T")[0]); // Reseta a data para hoje
     } catch (error) {
       console.error("Erro ao salvar:", error);
       alert("Falha ao salvar transação.");
@@ -103,7 +149,6 @@ export default function CreateTransactionWeb() {
     }
   };
 
-  // Função para formatar o texto limpo das subcategorias
   const formatCategoryName = (text) => {
     return text.replace(/_/g, " ").toLowerCase();
   };
@@ -111,6 +156,33 @@ export default function CreateTransactionWeb() {
   return (
     <div className="container">
       <h1 className="title">Novo Gasto</h1>
+
+      {/* BOTÃO DE IMPORTAR COMPROVANTE */}
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
+        <label 
+          htmlFor="receipt-upload" 
+          style={{
+            cursor: loading ? "not-allowed" : "pointer",
+            backgroundColor: "#28a745", // Cor verde estilo WhatsApp/Sucesso
+            color: "#fff",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontWeight: "bold",
+            display: "inline-block",
+            opacity: loading ? 0.7 : 1
+          }}
+        >
+          {loading ? "Lendo arquivo..." : "Ler Comprovante"}
+        </label>
+        <input
+          id="receipt-upload"
+          type="file"
+          accept="image/*,application/pdf"
+          style={{ display: "none" }}
+          onChange={handleFileUpload}
+          disabled={loading}
+        />
+      </div>
 
       {/* INPUT DE VALOR GIGANTE */}
       <div className="amount-container">

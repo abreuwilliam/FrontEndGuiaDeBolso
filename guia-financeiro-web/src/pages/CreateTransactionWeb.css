@@ -1,5 +1,5 @@
 /* ==========================================================================
-   🎨 CONFIGURAÇÃO DE AMBIENTE CLARO (Tema Inter / Indigo)
+   🎨 CONFIGURAÇÃO DE AMBIENTE CLARO (Tema Azul Bebê Suave)
    ========================================================================== */
 
 .container {
@@ -7,7 +7,7 @@
   margin: 0 auto;
   padding: 20px;
   font-family: 'Inter', sans-serif;
-  background-color: #FAFAFA;
+  background-color: #F0F9FF; /* Fundo principal azul bebê bem claro */
 }
 
 .title {
@@ -23,13 +23,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #FFFFFF;
+  background: #DBEAFE; /* Azul bebê suave para destaque */
   padding: 25px;
   border-radius: 24px;
-  border: 1px solid #F1F5F9;
+  border: 1px solid #BFDBFE;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
-  color: #000;
+  color: #1E3A8A;
 }
 
 .currency {
@@ -42,8 +42,8 @@
 .amount-input {
   font-size: 44px;
   font-weight: 800;
-  color: #000 !important;
-  -webkit-text-fill-color: #000 !important;
+  color: #1E3A8A !important;
+  -webkit-text-fill-color: #1E3A8A !important;
   border: none;
   outline: none;
   width: 180px;
@@ -52,10 +52,10 @@
 
 /* --- FORM CARD (Campos de Entrada) --- */
 .card-form {
-  background: #FFFFFF;
+  background: #DBEAFE;
   padding: 24px;
   border-radius: 28px;
-  border: 1px solid #F1F5F9;
+  border: 1px solid #BFDBFE;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
 }
 
@@ -63,7 +63,7 @@
   display: block;
   font-size: 11px;
   font-weight: 800;
-  color: #94A3B8;
+  color: #64748B;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 15px 0 8px;
@@ -71,8 +71,8 @@
 
 .input-field, .select-field {
   width: 100%;
-  background: #F8FAFC;
-  border: 2px solid #F1F5F9;
+  background: #F0F9FF;
+  border: 2px solid #BFDBFE;
   border-radius: 16px;
   padding: 14px;
   font-size: 16px;
@@ -95,7 +95,7 @@
 /* --- TABS (Forma de Pagamento) --- */
 .tab-container {
   display: flex;
-  background: #F1F5F9;
+  background: #BFDBFE;
   border-radius: 18px;
   padding: 5px;
   margin-bottom: 10px;
@@ -108,7 +108,7 @@
   border-radius: 14px;
   font-weight: 700;
   font-size: 13px;
-  color: #64748B;
+  color: rgb(3, 61, 223);
   background: transparent;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -149,7 +149,7 @@
 .group-title {
   font-size: 14px;
   font-weight: 700;
-  color: #1E293B;
+  color: #64748B;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -157,26 +157,24 @@
 }
 
 .group-icon-badge {
-  background: #E2E8F0;
+  background: #BFDBFE;
   padding: 4px 6px;
   border-radius: 8px;
   font-size: 14px;
 }
 
-/* Grid simétrico de 2 colunas para os itens internos */
 .items-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
-/* Estilo Card Moderno para os botões das subcategorias */
 button.category-card-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
+  background: #DBEAFE;
+  border: 1px solid #BFDBFE;
   padding: 12px 14px;
   border-radius: 16px;
   cursor: pointer;
@@ -186,8 +184,8 @@ button.category-card-item {
 }
 
 button.category-card-item:hover {
-  background: #F8FAFC;
-  border-color: #CBD5E1;
+  background: #F0F9FF;
+  border-color: #93C5FD;
   transform: translateY(-1px);
 }
 
@@ -195,18 +193,16 @@ button.category-card-item:hover {
   font-size: 18px;
 }
 
-/* Força o texto interno a herdar a visibilidade correta */
 .item-text {
   font-size: 13px;
   font-weight: 600;
-  color: #475569;
+  color: #1E3A8A;
   text-transform: capitalize;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Estado Ativo Premium (Destacado em Roxo para casar com o App) */
 button.category-card-item.active {
   background: #EEF2FF;
   border-color: #6366F1;
